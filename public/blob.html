@@ -1,18 +1,11 @@
-<div id="drop-area">
-  <form class="my-form">
-    <label class="button" for="dropzone"
-      >Select one file<br />
-      <input
-        type="file"
-        id="dropzone"
-        accept="image/png, image/jpeg, image/gif"
-      />
-    </label>
-    <br />
-    <br />
-    <input id="submit" type="submit" value="Upload Blob" />
-  </form>
-</div>
+<form>
+  <label class="button" for="dropzone"
+    >Select one file<br />
+    <input type="file" id="image" accept="image/png, image/jpeg, image/gif" />
+  </label>
+  <br />
+  <input id="submit" type="submit" value="Upload Blob" />
+</form>
 
 <script type="application/javascript">
   async function upload(body) {
@@ -25,12 +18,12 @@
 
   window.onload = function () {
     const submit = document.getElementById('submit');
-    const dropzone = document.getElementById('dropzone');
+    const imageInput = document.getElementById('image');
 
     submit.addEventListener('click', async e => {
       e.preventDefault();
 
-      const [file] = dropzone.files;
+      const [file] = imageInput.files;
 
       if (!file) {
         throw new Error('File was not selected');

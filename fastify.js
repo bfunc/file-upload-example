@@ -10,8 +10,11 @@ fastify.register(require('fastify-static'), {
 });
 
 fastify.post('/upload', function (req, reply) {
-  // log formData
-  console.log(req.raw.body);
+  // contains text field together with files
+  // console.log(req.raw.body);
+
+  // containes only files
+  console.log(req.raw.files);
 
   // TODO - do something file file
   // send it to AWS S3 or Cloudinary service for example
@@ -19,15 +22,14 @@ fastify.post('/upload', function (req, reply) {
   // return response to client
   reply.header('Location', 'success.html').code(303).send();
 
-  // stream file to disk, only if needed
-  /* const imageBuffer = req.raw.files['myImage'].data;
+  // [!] stream file to disk just for example, use it only if needed
+  const imageBuffer = req.raw.files['myImage'].data;
   const fileName = getPath('uploads', getRandomFileName());
   const stream = fs.createWriteStream(fileName);
   stream.once('open', function (fd) {
     stream.write(imageBuffer);
     stream.end();
-  }); 
-  */
+  });
 });
 
 fastify.listen(3000, err => {
