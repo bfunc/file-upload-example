@@ -1,0 +1,26 @@
+# Mac.
+.DS_STORE
+
+# Project
+.vscode
+.history
+.reference
+.backup
+.test
+.logs
+.cache
+
+# Client
+/dist
+/build
+/bower_components
+
+# Node
+/node_modules
+
+# Files
+/uploads/*
+!uploads/empty.md 
+*.log
+*.7z
+*.zip

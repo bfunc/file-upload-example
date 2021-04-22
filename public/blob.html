@@ -1,0 +1,50 @@
+<div id="drop-area">
+  <form class="my-form">
+    <label class="button" for="dropzone"
+      >Select one file<br />
+      <input
+        type="file"
+        id="dropzone"
+        accept="image/png, image/jpeg, image/gif"
+      />
+    </label>
+    <br />
+    <br />
+    <input id="submit" type="submit" value="Upload Blob" />
+  </form>
+</div>
+
+<script type="application/javascript">
+  async function upload(body) {
+    const uploadUrl = 'http://localhost:3000/upload';
+    await fetch(uploadUrl, {
+      method: 'POST',
+      body,
+    });
+  }
+
+  window.onload = function () {
+    const submit = document.getElementById('submit');
+    const dropzone = document.getElementById('dropzone');
+
+    submit.addEventListener('click', async e => {
+      e.preventDefault();
+
+      const [file] = dropzone.files;
+
+      if (!file) {
+        throw new Error('File was not selected');
+      }
+
+      const arrayBuffer = await file.arrayBuffer();
+      const blob = new Blob([new Uint8Array(arrayBuffer)], {
+        type: file.type,
+      });
+
+      let body = new FormData();
+      body.append('img', blob, file.name);
+
+      upload(body);
+    });
+  };
+</script>

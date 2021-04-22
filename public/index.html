@@ -1,0 +1,56 @@
+<form>
+  <h4>Multipart from data upload example</h4>
+  <input id="text" type="text" name="myText" /><br />
+  <input id="image" type="file" name="myImage" accept="image/*" /><br />
+  <input id="submit" type="submit" value="Upload" />
+  <hr />
+  <h4>Preview</h4>
+  <div id="preview"></div>
+</form>
+
+<script type="application/javascript">
+  const uploadUrl = 'http://localhost:3000/upload';
+
+  window.onload = function () {
+    const submitButton = document.getElementById('submit');
+    const imageInput = document.getElementById('image');
+    const textInput = document.getElementById('text');
+    const preview = document.getElementById('preview');
+
+    imageInput.addEventListener('change', e => {
+      const [file] = imageInput.files;
+      updatePreviewImage(file);
+    });
+
+    function updatePreviewImage(file) {
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" />`;
+    }
+
+    submitButton.addEventListener('click', async e => {
+      e.preventDefault();
+
+      const [file] = imageInput.files;
+
+      if (!file) {
+        throw new Error('File was not selected');
+      }
+
+      console.log({ file });
+
+      const formData = new FormData();
+      formData.append('myImage', file);
+      formData.append('myText', textInput.value || 'empty text');
+
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        body: formData,
+      });
+    });
+
+    function updatePreviewImage(file) {
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" />`;
+    }
+  };
+</script>
